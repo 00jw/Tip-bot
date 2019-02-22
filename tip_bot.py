@@ -7,7 +7,14 @@ from pymongo import MongoClient
 from telegram import Bot
 from web3 import Web3, HTTPProvider
 
-with open('services.json') as conf_file:
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-c", "--config", type=str, required=True, help="Config file")
+parser.add_argument("-t", "--toothless", help="Does not send transactions", action="store_true")
+args = parser.parse_args()
+
+with open(args.config) as conf_file:
     conf = json.load(conf_file)
     connectionString = conf['mongo']['connectionString']
     http_provider = conf['web3']['provider']
@@ -277,8 +284,11 @@ class TipBot:
                 _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
-                tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
-                tx = self.w3.toHex(tx)
+                if args.toothless:
+                    tx = signex_txn.hash.hex()
+                else:
+                    tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+                    tx = self.w3.toHex(tx)
 
                 self.bot.send_message(self.user_id,
                                       dictionary['withdrawal_result'] % (amount, address, tx),
@@ -322,8 +332,11 @@ class TipBot:
                 _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
-                tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
-                tx = self.w3.toHex(tx)
+                if args.toothless:
+                    tx = signed_txn.hash.hex()
+                else:
+                    tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+                    tx = self.w3.toHex(tx)
 
                 self.bot.send_message(self.user_id,
                                       dictionary['donate_result'] % (balance, tx),
@@ -415,8 +428,11 @@ class TipBot:
                     'TomoPrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
-                tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
-                tx = self.w3.toHex(tx)
+                if args.toothless:
+                    tx = signed_txn.hash.hex()
+                else:
+                    tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+                    tx = self.w3.toHex(tx)
 
                 self.bot.send_message(user_id,
                                       dictionary['tip_recieved'] % (amount, coin, tx),
