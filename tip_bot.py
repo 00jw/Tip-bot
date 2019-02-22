@@ -147,6 +147,9 @@ class TipBot:
 
         elif "/tip" == cmd or "/send" == cmd:
             if args is not None and len(args) >= 1:
+                if options.verbose:
+                    print("self.message.reply_to_message:")
+                    print(self.message.reply_to_message)
                 if self.message.reply_to_message is not None:
                     if options.verbose:
                         print("running tip_in_the_chat() with args:")
