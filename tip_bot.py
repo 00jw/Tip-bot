@@ -148,8 +148,14 @@ class TipBot:
         elif "/tip" == cmd or "/send" == cmd:
             if args is not None and len(args) >= 1:
                 if self.message.reply_to_message is not None:
+                    if args.verbose:
+                        print("running tip_in_the_chat() with args:")
+                        print(*args)
                     self.tip_in_the_chat(*args)
                 else:
+                    if args.verbose:
+                        print("running tip_user() with args:")
+                        print(*args)
                     self.tip_user(*args)
             else:
                 self.bot.send_message(self.user_id,
