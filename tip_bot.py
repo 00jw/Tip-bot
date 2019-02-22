@@ -13,9 +13,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--config", type=str, required=True, help="Config file")
 parser.add_argument("-t", "--toothless", help="Does not send transactions", action="store_true")
 parser.add_argument("-v", "--verbose", help="A more verbose output", action="store_true")
-args = parser.parse_args()
+options = parser.parse_args()
 
-with open(args.config) as conf_file:
+with open(options.config) as conf_file:
     conf = json.load(conf_file)
     connectionString = conf['mongo']['connectionString']
     http_provider = conf['web3']['provider']
@@ -89,7 +89,7 @@ class TipBot:
         try:
             return str(self.message.from_user.username)
         except:
-            if args.verbose:
+            if options.verbose:
                 print("Could not find username for:")
                 print(self.message)
             return None
@@ -148,12 +148,12 @@ class TipBot:
         elif "/tip" == cmd or "/send" == cmd:
             if args is not None and len(args) >= 1:
                 if self.message.reply_to_message is not None:
-                    if args.verbose:
+                    if options.verbose:
                         print("running tip_in_the_chat() with args:")
                         print(*args)
                     self.tip_in_the_chat(*args)
                 else:
-                    if args.verbose:
+                    if options.verbose:
                         print("running tip_user() with args:")
                         print(*args)
                     self.tip_user(*args)
@@ -296,7 +296,7 @@ class TipBot:
                 _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
-                if args.toothless:
+                if options.toothless:
                     tx = signex_txn.hash.hex()
                 else:
                     tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
@@ -344,7 +344,7 @@ class TipBot:
                 _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
-                if args.toothless:
+                if options.toothless:
                     tx = signed_txn.hash.hex()
                 else:
                     tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
@@ -440,7 +440,7 @@ class TipBot:
                     'TomoPrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
-                if args.toothless:
+                if options.toothless:
                     tx = signed_txn.hash.hex()
                 else:
                     tx = self.w3.eth.sendRawTransaction(signed_txn.rawTransaction)
