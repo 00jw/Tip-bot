@@ -12,6 +12,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--config", type=str, required=True, help="Config file")
 parser.add_argument("-t", "--toothless", help="Does not send transactions", action="store_true")
+parser.add_argument("-v", "--verbose", help="A more verbose output", action="store_true")
 args = parser.parse_args()
 
 with open(args.config) as conf_file:
@@ -88,6 +89,9 @@ class TipBot:
         try:
             return str(self.message.from_user.username)
         except:
+            if args.verbose:
+                print("Could not find username for:")
+                print(self.message)
             return None
 
 
