@@ -17,7 +17,7 @@ options = parser.parse_args()
 
 with open(options.config) as conf_file:
     conf = json.load(conf_file)
-    connectionString = conf['mongo']['connectionString']
+    connectionString = conf['mongo']['connectionString'] + "/" + conf['mongo']['db']
     http_provider = conf['web3']['provider']
     bot_token = conf['telegram_bot']['bot_token']
     dictionary = conf['dictionary']

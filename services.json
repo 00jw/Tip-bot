@@ -1,7 +1,8 @@
 {
     "mongo":
     {
-      "connectionString": ""
+      "connectionString": "",
+      "db":""
     },
     "telegram_bot": {
       "bot_token": ""
