@@ -59,7 +59,7 @@ class TipBot:
             print(exc)
 
         self.chat_id = self.message.chat.id
-        self.tomo_address = self.get_user_data()
+        self.address = self.get_user_address()
 
         split = self.message_text.split(' ')
         if len(split) > 1:
@@ -189,7 +189,7 @@ class TipBot:
         elif "/deposit" == cmd:
             self.bot.send_message(
                 self.user_id,
-                dictionary['deposit'] % self.tomo_address,
+                dictionary['deposit'] % self.address,
                 parse_mode='HTML'
             )
 
@@ -250,14 +250,14 @@ class TipBot:
         Check user balance
     """
     def check_balance(self):
-        balance = self.w3.fromWei(self.w3.eth.getBalance(self.tomo_address), 'ether')
+        balance = self.w3.fromWei(self.w3.eth.getBalance(self.address), 'ether')
         return balance
 
 
     """
         Get user data
     """
-    def get_user_data(self):
+    def get_user_address(self):
         try:
             _user = self.col_users.find_one({"_id": self.user_id})
             return _user['TomoAddress']
@@ -288,12 +288,12 @@ class TipBot:
                 gas_price = self.w3.eth.gasPrice
                 txn = \
                     {
-                        'from': self.tomo_address,
+                        'from': self.address,
                         'gas': gas,
                         'to': to_address,
                         'value': self.w3.toWei(amount, 'ether') - (gas*gas_price),
                         'gasPrice': gas_price,
-                        'nonce': self.w3.eth.getTransactionCount(self.tomo_address),
+                        'nonce': self.w3.eth.getTransactionCount(self.address),
                     }
 
                 _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
@@ -336,12 +336,12 @@ class TipBot:
                 gas_price = self.w3.eth.gasPrice
                 txn = \
                     {
-                        'from': self.tomo_address,
+                        'from': self.address,
                         'gas': gas,
                         'to': to_address,
                         'value': self.w3.toWei(amount, 'ether') - (gas*gas_price),
                         'gasPrice': gas_price,
-                        'nonce': self.w3.eth.getTransactionCount(self.tomo_address),
+                        'nonce': self.w3.eth.getTransactionCount(self.address),
                     }
 
                 _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
@@ -431,12 +431,12 @@ class TipBot:
                 gas_price = self.w3.eth.gasPrice
                 txn = \
                     {
-                        'from': self.tomo_address,
+                        'from': self.address,
                         'gas': gas,
                         'to': address,
                         'value': self.w3.toWei(amount, 'ether') - (gas*gas_price),
                         'gasPrice': gas_price,
-                        'nonce': self.w3.eth.getTransactionCount(self.tomo_address),
+                        'nonce': self.w3.eth.getTransactionCount(self.address),
                     }
 
                 _private_key = self.col_users.find_one({"_id": self.user_id})[
