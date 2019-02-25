@@ -133,8 +133,8 @@ class TipBot:
                 self.col_users.insert({
                     "_id": self.user_id,
                     "UserName": self.username,
-                    "TomoAddress": public_key,
-                    "TomoPrivateKey": pr_key,
+                    "Address": public_key,
+                    "PrivateKey": pr_key,
                     "Balance": 0
                 })
                 self.bot.send_message(
@@ -212,7 +212,7 @@ class TipBot:
             )
 
         elif "/backup" == cmd:
-            _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
+            _private_key = self.col_users.find_one({"_id": self.user_id})['PrivateKey']
             self.bot.send_message(
                 self.user_id,
                 dictionary['backup'] % _private_key,
@@ -260,7 +260,7 @@ class TipBot:
     def get_user_address(self):
         try:
             _user = self.col_users.find_one({"_id": self.user_id})
-            return _user['TomoAddress']
+            return _user['Address']
         except Exception as exc:
             print(exc)
             return None, None
@@ -296,7 +296,7 @@ class TipBot:
                         'nonce': self.w3.eth.getTransactionCount(self.address),
                     }
 
-                _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
+                _private_key = self.col_users.find_one({"_id": self.user_id})['PrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
                 if options.toothless:
@@ -344,7 +344,7 @@ class TipBot:
                         'nonce': self.w3.eth.getTransactionCount(self.address),
                     }
 
-                _private_key = self.col_users.find_one({"_id": self.user_id})['TomoPrivateKey']
+                _private_key = self.col_users.find_one({"_id": self.user_id})['PrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
                 if options.toothless:
@@ -369,7 +369,7 @@ class TipBot:
         username
         amount
     """
-    def tip_user(self, username, amount, coin='Tomo'):
+    def tip_user(self, username, amount, coin=conf['currency']):
         try:
             try:
                 amount = float(amount)
@@ -389,7 +389,7 @@ class TipBot:
                                       parse_mode='HTML')
                 return
 
-            self.send_tip(_user['_id'], _user['TomoAddress'], amount, coin)
+            self.send_tip(_user['_id'], _user['Address'], amount, coin)
 
         except Exception as exc:
             print(exc)
@@ -398,7 +398,7 @@ class TipBot:
     """
         Send a tip to user in the chat
     """
-    def tip_in_the_chat(self, amount, coin='Tomo'):
+    def tip_in_the_chat(self, amount, coin=conf['currency']):
         try:
             try:
                 amount = float(amount)
@@ -410,7 +410,7 @@ class TipBot:
 
             _user = self.col_users.find_one({"_id": self.message.reply_to_message.from_user.id})
 
-            self.send_tip(self.message.reply_to_message.from_user.id, _user['TomoAddress'], amount, coin)
+            self.send_tip(self.message.reply_to_message.from_user.id, _user['Address'], amount, coin)
 
         except Exception as exc:
             print(exc)
@@ -440,7 +440,7 @@ class TipBot:
                     }
 
                 _private_key = self.col_users.find_one({"_id": self.user_id})[
-                    'TomoPrivateKey']
+                    'PrivateKey']
                 signed_txn = self.w3.eth.account.signTransaction(txn,
                                                                  private_key=_private_key)
                 if options.toothless:

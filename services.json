@@ -1,32 +1,31 @@
 {
-    "mongo":
-    {
-      "connectionString": "",
-      "db":""
-    },
-    "telegram_bot": {
-      "bot_token": ""
-    },
-    "web3": {
-      "provider": "https://rpc.tomochain.com"
-    },
-    "donate_address": "",
-    "dictionary": {
-      "welcome": "',
-      "balance": "",
-      "incorrect_parameters": "",
-      "incorrect_withdraw": "",
-      "deposit": "",
-      "donate": "",
-      "help": "",
-      "backup": "",
-      "withdrawal_result": "",
-      "incorrect_balance": "",
-      "incorrect_amount": "",
-      "donate_result": "",
-      "username_error": "",
-      "tip_recieved": "",
-      "tip_sent": ""
-    }
-
+  "currency": "",
+  "mongo": {
+    "connectionString": "",
+    "db": ""
+  },
+  "telegram_bot": {
+    "bot_token": ""
+  },
+  "web3": {
+    "provider": ""
+  },
+  "donate_address": "",
+  "dictionary": {
+    "welcome": "",
+    "balance": "",
+    "incorrect_parameters": "",
+    "incorrect_withdraw": "",
+    "deposit": "",
+    "donate": "",
+    "help": "",
+    "backup": "",
+    "withdrawal_result": "",
+    "incorrect_balance": "",
+    "incorrect_amount": "",
+    "donate_result": "",
+    "username_error": "",
+    "tip_recieved": "",
+    "tip_sent": ""
+  }
 }
