@@ -27,8 +27,9 @@ with open(options.config) as conf_file:
 
 class TipBot:
     def __init__(self, w3):
-
-        print("Running toothless. Transactions will not be sent")
+        
+        if options.toothless:
+            print("Running toothless. Transactions will not be sent")
 
         self.w3 = w3
         print("Web3 Connected: %s " % self.w3.isConnected())
