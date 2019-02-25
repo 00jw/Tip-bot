@@ -38,7 +38,7 @@ class TipBot:
 
         # Tip bot Initialization
         client = MongoClient(connectionString)
-        db = client.get_default_database()
+        db = client.get_database()
         self.col_users = db['Users']
 
         # get chat updates
