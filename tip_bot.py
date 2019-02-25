@@ -284,7 +284,7 @@ class TipBot:
             balance = self.check_balance()
             if balance > amount:
                 to_address = self.w3.toChecksumAddress(address)
-                gas = 40000
+                gas = 21000
                 gas_price = self.w3.eth.gasPrice
                 txn = \
                     {
@@ -332,7 +332,7 @@ class TipBot:
             balance = self.check_balance()
             if balance > amount:
                 to_address = self.w3.toChecksumAddress(donate_address)
-                gas = 40000
+                gas = 21000
                 gas_price = self.w3.eth.gasPrice
                 txn = \
                     {
@@ -427,7 +427,7 @@ class TipBot:
         try:
             balance = self.check_balance()
             if balance > amount:
-                gas = 40000
+                gas = 21000
                 gas_price = self.w3.eth.gasPrice
                 txn = \
                     {
